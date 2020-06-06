@@ -702,7 +702,7 @@ SetParam(Cmd_T	*cmd,
 		s=_s;
 	}
 	
-	if (!*s || (s=='\0' && cmd->Flag==0)){
+	if (!*s || (*s=='\0' && cmd->Flag==0)){
 		fprintf(stderr,
 						"WARNING: No value specified for parameter \"%s\"\n",
 						cmd->Name);

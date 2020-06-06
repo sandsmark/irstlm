@@ -1,7 +1,4 @@
 # Set output directory
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/bin)
-SET(LIBRARY_OUTPUT_PATH ${CMAKE_INSTALL_PREFIX}/lib)
-
 ADD_DEFINITIONS("-D_LARGE_FILES")
 ADD_DEFINITIONS("-D_FILE_OFFSET_BITS=64")
 ADD_DEFINITIONS("-DMYCODESIZE=3")
@@ -30,7 +27,7 @@ else()
 endif() 
 
 #SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${STD_FLAG} -isystem/usr/include -W -Wall -ffor-scope")
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+#SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
 
@@ -65,18 +62,15 @@ SET( LIB_IRSTLM_SRC
 )
 
 ADD_LIBRARY(irstlm STATIC ${LIB_IRSTLM_SRC})
-LINK_DIRECTORIES (${LIBRARY_OUTPUT_PATH})
 
 FOREACH(CMD dict ngt tlm dtsel plsa cswa compile-lm interpolate-lm prune-lm quantize-lm score-lm verify-caching)
-
-ADD_EXECUTABLE(${CMD} ${CMD}.cpp)
-TARGET_LINK_LIBRARIES (${CMD} irstlm -lm -lz -lpthread)
-install(TARGETS ${CMD} DESTINATION bin)
-
+    ADD_EXECUTABLE(${CMD} ${CMD}.cpp)
+    TARGET_LINK_LIBRARIES (${CMD} irstlm -lm -lz -lpthread)
+    install(TARGETS ${CMD} DESTINATION bin)
 ENDFOREACH()
 
 #INSTALL INCLUDE FILES
 FILE(GLOB includes src *.h)
 INSTALL(FILES ${includes} DESTINATION include)
 
-install(TARGETS irstlm DESTINATION bin)
+install(TARGETS irstlm DESTINATION lib)
