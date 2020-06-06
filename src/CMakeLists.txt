@@ -29,7 +29,7 @@ else()
   ADD_DEFINITIONS("-UHAVE_CXX0")
 endif() 
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${STD_FLAG} -isystem/usr/include -W -Wall -ffor-scope")
+#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g ${STD_FLAG} -isystem/usr/include -W -Wall -ffor-scope")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/src")
@@ -71,6 +71,7 @@ FOREACH(CMD dict ngt tlm dtsel plsa cswa compile-lm interpolate-lm prune-lm quan
 
 ADD_EXECUTABLE(${CMD} ${CMD}.cpp)
 TARGET_LINK_LIBRARIES (${CMD} irstlm -lm -lz -lpthread)
+install(TARGETS ${CMD} DESTINATION bin)
 
 ENDFOREACH()
 
@@ -78,10 +79,4 @@ ENDFOREACH()
 FILE(GLOB includes src *.h)
 INSTALL(FILES ${includes} DESTINATION include)
 
-add_custom_command(OUTPUT LNS
-                   COMMAND ln -s -f -n lib lib64
-		   WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}
-                   COMMENT "creating link from lib to lib64")
-
-add_custom_target(LinkToLib64 ALL DEPENDS LNS)
-
+install(TARGETS irstlm DESTINATION bin)
